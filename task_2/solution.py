@@ -23,30 +23,23 @@ class Model:
     def get_completedTasks(self) -> Dict:
         return self.completedTasks
 
-    def add_task(self, task_name: str) -> List:
-        self.activeTasks.append(task_name)
-        return self.activeTasks
-
     def add_tasks(self, tasks: List[str]) -> List[str]:
         for task_name in tasks:
-            self.add_task(task_name)
+            self.activeTasks.append(task_name)
         return self.activeTasks
-
-    def remove_task(self, task_id: int) -> str:
-        return self.activeTasks.pop(task_id)
 
     def remove_tasks(self, tasks: List[int]) -> List[str]:
         return [self.activeTasks.pop(task_id) for task_id in tasks]
 
     def mark_as_done(self, task_id: int) -> str:
-        task = self.remove_task(task_id=task_id)
+        tasks = self.remove_tasks(tasks=[task_id])
 
         today_date = date.today().strftime("%d/%m/%Y")
 
         self.completedTasks.update({
-            today_date: self.completedTasks.get(today_date, []) + [task]
+            today_date: self.completedTasks.get(today_date, []) + tasks
         })
-        return task
+        return tasks[0]
 
     def save(self) -> None:
         with open(self.file_name, 'w', encoding='utf-8') as file:
@@ -61,7 +54,7 @@ class View:
     def clean_screen(cls):
         os.system('clear')
 
-    def tasks_view(self, tasks: List[str]):
+    def print_tasks(self, tasks: List[str]):
         for tk, task in enumerate(tasks):
             print(f"{tk}| {task}")
 
@@ -86,9 +79,24 @@ class View:
         print(msg)
 
 
-
 def controller():
-    ...
+    model = Model("storage.json")
+    view = View()
+
+    while True:
+        view.clean_screen()
+        view.menu_view()
+        choice = input("::")
+        match choice:
+            case 1:
+                view.add_tasks_view()
+            case 2:
+                ...
+            case 3:
+                ...
+            case 4:
+                view.print_tasks()
+
 
 
 if __name__ == "__main__":
