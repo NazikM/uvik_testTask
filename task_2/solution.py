@@ -1,6 +1,7 @@
 import json
+import os
 from datetime import date
-
+import time
 from typing import List, Dict
 
 
@@ -55,9 +56,35 @@ class Model:
             }, file)
 
 
-
 class View:
-    ...
+    @classmethod
+    def clean_screen(cls):
+        os.system('clear')
+
+    def tasks_view(self, tasks: List[str]):
+        for tk, task in enumerate(tasks):
+            print(f"{tk}| {task}")
+
+    def menu_view(self):
+        msg = """
+            Hello this is TODO app with a command line interface.
+            
+            To start working with that you should tell me number of action.
+            1) Add an item
+            2) Remove an item
+            3) Mark an item as done
+            4) List items
+        """
+        print(msg)
+
+    def add_tasks_view(self):
+        msg = """
+        To add new tasks just type them and press enter. 
+        Every new line == new task. 
+        To exit typing mode just leave empty line.
+        """
+        print(msg)
+
 
 
 def controller():
