@@ -1,7 +1,6 @@
 import json
 import os
 from datetime import date
-import time
 from typing import List, Dict
 
 
@@ -54,8 +53,15 @@ class View:
     def clean_screen(cls):
         os.system('clear')
 
-    def print_tasks(self, tasks: List[str]):
-        for tk, task in enumerate(tasks):
+    def print_tasks(self, active: List[str], completed: Dict[str, List[str]]):
+        print("YOUR TODO LIST")
+        print("To be done:")
+        for tk, task in enumerate(active):
+            print(f"{tk}| {task}")
+        print("Completed:")
+        for _, tasks in completed:
+            for tk, task in enumerate(active):
+                print(f"{tk}| {task}")
             print(f"{tk}| {task}")
 
     def menu_view(self):
@@ -79,25 +85,36 @@ class View:
         print(msg)
 
 
-def controller():
-    model = Model("storage.json")
-    view = View()
+class Controller:
+    @staticmethod
+    def multiline_input() -> List[str]:
+        res = []
+        while temp := input("::"):
+            res.append(temp)
+        return res
 
-    while True:
+    @staticmethod
+    def controller():
+        model = Model("storage.json")
+        view = View()
+        model.load_tasks()
         view.clean_screen()
-        view.menu_view()
-        choice = input("::")
-        match choice:
-            case 1:
-                view.add_tasks_view()
-            case 2:
-                ...
-            case 3:
-                ...
-            case 4:
-                view.print_tasks()
-
+        while True:
+            view.menu_view()
+            choice = input("::")
+            match choice:
+                case "1":
+                    view.add_tasks_view()
+                    data = Controller.multiline_input()
+                    model.add_tasks(data)
+                case "2":
+                    ...
+                case "3":
+                    ...
+                case "4":
+                    view.print_tasks(active=model.get_activeTasks(),
+                                     completed=model.get_completedTasks())
 
 
 if __name__ == "__main__":
-    controller()
+    Controller.controller()
