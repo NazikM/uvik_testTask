@@ -1,4 +1,10 @@
 {
-  "activeTasks": [],
-  "completedTasks": {}
+  "lastId": 0,
+  "tasks": [
+    {
+      "id": 0,
+      "task": "Test task",
+      "completed": false
+    }
+  ]
 }
