@@ -1,10 +1,11 @@
 {
-  "lastId": 0,
-  "tasks": [
-    {
-      "id": 0,
-      "task": "Test task",
-      "completed": false
-    }
-  ]
+    "tasks": [
+        {
+            "id": 0,
+            "task": "Test task",
+            "completed": true,
+            "date": "09/10/2022"
+        }
+    ],
+    "lastId": 8
 }
